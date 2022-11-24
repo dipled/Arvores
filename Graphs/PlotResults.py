@@ -3,7 +3,6 @@ import numpy as np
 import math
 plt.style.use("seaborn-deep")
 
-generalPath = "/home/pe/Desktop/Code/Arvores/"
 
 
 # with open(generalPath + "RedBlackTree/PerformanceAverageCase.txt", 'r') as f:
@@ -68,7 +67,7 @@ generalPath = "/home/pe/Desktop/Code/Arvores/"
 
 # (5) Gráfico do pior caso da árvore AVL:
 
-with open(generalPath + "AVL/PerformanceWorstCase.txt", 'r') as f:
+with open("AVL/PerformanceWorstCase.txt", 'r') as f:
     lines = f.readlines()
 
 worstVectorAVL = [0 for i in range(len(lines[0].split()))]
@@ -87,7 +86,7 @@ plt.title("Average Case vs Worst Case")
 plt.xlabel("Elementos na árvore")
 plt.ylabel("Etapas")
 plt.legend(loc="upper left")
-plt.savefig(generalPath + "Graphics/AVLTree.png")
+plt.savefig("Graphs/AVLTree.png")
 #plt.close()
 #f.close()
 #

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include<time.h>
 int cont = 0;
 
 struct Node
@@ -72,7 +73,6 @@ struct Node *leftRotate(struct Node *x)
 // Get the balance factor
 int getBalance(struct Node *N)
 {
-    cont += 1;
     if (N == NULL)
         return 0;
     return height(N->left) - height(N->right);
@@ -208,23 +208,42 @@ void printPreOrder(struct Node *root)
         printPreOrder(root->right);
     }
 }
-void worstcase(struct Node *root)
+void worstcase()
 {
-    FILE *fp = fopen("PerformanceWorstCase.txt","w+");
+    struct Node *root = NULL;
+    FILE *fp = fopen("PerformanceWorstCase.txt", "w+");
 
     for (int i = 0; i < 10000; i += 1)
     {
         root = insertNode(root, i);
-        fprintf(fp,"%d ", cont);
+        fprintf(fp, "%d ", cont);
         cont = 0;
+    }
+    fclose(fp);
+    if(root != NULL)
+        free(root);
+}
+void avgcase()
+{
+    FILE *fp = fopen("PerformanceAverageCase.txt", "w+");
+    srand(time(NULL));
+    for (int i = 0; i < 10; i += 1)
+    {
+        struct Node *root = NULL;
+        for(int j = 0; j < 10000; j += 1)
+        {
+            root = insertNode(root,rand());
+            fprintf(fp, "%d ", cont);
+            cont = 0;
+        }
+        fprintf(fp,"\n");
     }
     fclose(fp);
 }
 int main()
 {
-    struct Node *root = NULL;
-    worstcase(root);
-    printPreOrder(root);
 
+    worstcase();
+    avgcase();
     return 0;
 }
