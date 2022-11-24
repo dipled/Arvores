@@ -1,372 +1,229 @@
-#include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
+#include <stdlib.h>
 int cont = 0;
-typedef struct no
+
+struct Node
 {
-    struct no *pai;
-    struct no *esquerda;
-    struct no *direita;
-    int valor;
-} No;
+    int key;
+    struct Node *left;
+    struct Node *right;
+    int height;
+};
 
-typedef struct arvore
+int max(int a, int b);
+
+// Calculate height
+int height(struct Node *N)
 {
-    struct no *raiz;
-} Arvore;
-
-void balanceamento(Arvore *, No *);
-int altura(No *);
-int fb(No *);
-No *rsd(Arvore *, No *);
-No *rse(Arvore *, No *);
-No *rdd(Arvore *, No *);
-No *rde(Arvore *, No *);
-
-Arvore *criar()
-{
-    Arvore *arvore = malloc(sizeof(Arvore));
-    arvore->raiz = NULL;
-
-    return arvore;
+    if (N == NULL)
+        return 0;
+    return N->height;
 }
 
-int vazia(Arvore *arvore)
+int max(int a, int b)
 {
-    return arvore->raiz == NULL;
+    return (a > b) ? a : b;
 }
 
-No *adicionarNo(No *no, int valor)
+// Create a node
+struct Node *newNode(int key)
+{
+    struct Node *node = (struct Node *)
+        malloc(sizeof(struct Node));
+    node->key = key;
+    node->left = NULL;
+    node->right = NULL;
+    node->height = 1;
+    return (node);
+}
+
+// Right rotate
+struct Node *rightRotate(struct Node *y)
 {
     cont += 1;
-    if (valor > no->valor)
-    {
-        if (no->direita == NULL)
-        {
-            No *novo = malloc(sizeof(No));
-            novo->valor = valor;
-            novo->pai = no;
+    struct Node *x = y->left;
+    struct Node *T2 = x->right;
 
-            no->direita = novo;
+    x->right = y;
+    y->left = T2;
 
-            return novo;
-        }
-        else
-        {
-            return adicionarNo(no->direita, valor);
-        }
-    }
-    else
-    {
-        if (no->esquerda == NULL)
-        {
-            No *novo = malloc(sizeof(No));
-            novo->valor = valor;
-            novo->pai = no;
+    y->height = max(height(y->left), height(y->right)) + 1;
+    x->height = max(height(x->left), height(x->right)) + 1;
 
-            no->esquerda = novo;
-
-            return novo;
-        }
-        else
-        {
-            return adicionarNo(no->esquerda, valor);
-        }
-    }
+    return x;
 }
 
-No *adicionar(Arvore *arvore, int valor)
+// Left rotate
+struct Node *leftRotate(struct Node *x)
 {
-    if (arvore->raiz == NULL)
-    {
-        No *novo = malloc(sizeof(No));
-        novo->valor = valor;
+    cont += 1;
+    struct Node *y = x->right;
+    struct Node *T2 = y->left;
 
-        arvore->raiz = novo;
+    y->left = x;
+    x->right = T2;
 
-        return novo;
-    }
-    else
-    {
-        No *no = adicionarNo(arvore->raiz, valor);
-        balanceamento(arvore, no);
+    x->height = max(height(x->left), height(x->right)) + 1;
+    y->height = max(height(y->left), height(y->right)) + 1;
 
-        return no;
-    }
+    return y;
 }
 
-void remover(Arvore *arvore, No *no)
+// Get the balance factor
+int getBalance(struct Node *N)
 {
-    if (no->esquerda != NULL)
-    {
-        remover(arvore, no->esquerda);
-    }
-
-    if (no->direita != NULL)
-    {
-        remover(arvore, no->direita);
-    }
-
-    if (no->pai == NULL)
-    {
-        arvore->raiz = NULL;
-    }
-    else
-    {
-        if (no->pai->esquerda == no)
-        {
-            no->pai->esquerda = NULL;
-        }
-        else
-        {
-            no->pai->direita = NULL;
-        }
-    }
-
-    free(no);
+    cont += 1;
+    if (N == NULL)
+        return 0;
+    return height(N->left) - height(N->right);
 }
 
-No *localizar(No *no, int valor)
+// Insert node
+struct Node *insertNode(struct Node *node, int key)
 {
-    if (no->valor == valor)
+    // Find the correct position to insertNode the node and insertNode it
+    cont += 1;
+    if (node == NULL)
+        return (newNode(key));
+
+    if (key < node->key)
+        node->left = insertNode(node->left, key);
+    else if (key > node->key)
+        node->right = insertNode(node->right, key);
+    else
+        return node;
+
+    // Update the balance factor of each node and
+    // Balance the tree
+    node->height = 1 + max(height(node->left),
+                           height(node->right));
+
+    int balance = getBalance(node);
+    if (balance > 1 && key < node->left->key)
+        return rightRotate(node);
+
+    if (balance < -1 && key > node->right->key)
+        return leftRotate(node);
+
+    if (balance > 1 && key > node->left->key)
     {
-        return no;
+        node->left = leftRotate(node->left);
+        return rightRotate(node);
     }
+
+    if (balance < -1 && key < node->right->key)
+    {
+        node->right = rightRotate(node->right);
+        return leftRotate(node);
+    }
+
+    return node;
+}
+
+struct Node *minValueNode(struct Node *node)
+{
+    struct Node *current = node;
+
+    while (current->left != NULL)
+        current = current->left;
+
+    return current;
+}
+
+// Delete a nodes
+struct Node *deleteNode(struct Node *root, int key)
+{
+    // Find the node and delete it
+    if (root == NULL)
+        return root;
+
+    if (key < root->key)
+        root->left = deleteNode(root->left, key);
+
+    else if (key > root->key)
+        root->right = deleteNode(root->right, key);
+
     else
     {
-        if (valor < no->valor)
+        if ((root->left == NULL) || (root->right == NULL))
         {
-            if (no->esquerda != NULL)
+            struct Node *temp = root->left ? root->left : root->right;
+
+            if (temp == NULL)
             {
-                return localizar(no->esquerda, valor);
-            }
-        }
-        else
-        {
-            if (no->direita != NULL)
-            {
-                return localizar(no->direita, valor);
-            }
-        }
-    }
-
-    return NULL;
-}
-
-void percorrerProfundidadeInOrder(No *no, void (*callback)(int))
-{
-    if (no != NULL)
-    {
-        percorrerProfundidadeInOrder(no->esquerda, callback);
-        callback(no->valor);
-        percorrerProfundidadeInOrder(no->direita, callback);
-    }
-}
-
-void percorrerProfundidadePreOrder(No *no, void (*callback)(int))
-{
-    if (no != NULL)
-    {
-        callback(no->valor);
-        percorrerProfundidadePreOrder(no->esquerda, callback);
-        percorrerProfundidadePreOrder(no->direita, callback);
-    }
-}
-
-void percorrerProfundidadePosOrder(No *no, void(callback)(int))
-{
-    if (no != NULL)
-    {
-        percorrerProfundidadePosOrder(no->esquerda, callback);
-        percorrerProfundidadePosOrder(no->direita, callback);
-        callback(no->valor);
-    }
-}
-
-void visitar(int valor)
-{
-    printf("%d ", valor);
-}
-
-void balanceamento(Arvore *arvore, No *no)
-{
-    while (no != NULL)
-    {
-        int fator = fb(no);
-
-        if (fator > 1)
-        { //árvore mais pesada para esquerda
-            // rotação para a direita
-            if (fb(no->esquerda) > 0)
-            {
-                rsd(arvore, no); // rotação simples a direita, pois o FB do filho tem sinal igual
+                temp = root;
+                root = NULL;
             }
             else
-            {
-                rdd(arvore, no); // rotação dupla a direita, pois o FB do filho tem sinal diferente
-            }
-        }
-        else if (fator < -1)
-        { //árvore mais pesada para a direita
-            // rotação para a esquerda
-            if (fb(no->direita) < 0)
-            {
-                rse(arvore, no); // rotação simples a esquerda, pois o FB do filho tem sinal igual
-            }
-            else
-            {
-                rde(arvore, no); // rotação dupla a esquerda, pois o FB do filho tem sinal diferente
-            }
-        }
-
-        no = no->pai;
-    }
-}
-
-int altura(No *no)
-{
-    int esquerda = 0, direita = 0;
-
-    if (no->esquerda != NULL)
-    {
-        esquerda = altura(no->esquerda) + 1;
-    }
-
-    if (no->direita != NULL)
-    {
-        direita = altura(no->direita) + 1;
-    }
-
-    return esquerda > direita ? esquerda : direita; // max(esquerda,direita)
-}
-
-int fb(No *no)
-{
-    int esquerda = 0, direita = 0;
-
-    if (no->esquerda != NULL)
-    {
-        esquerda = altura(no->esquerda) + 1;
-    }
-
-    if (no->direita != NULL)
-    {
-        direita = altura(no->direita) + 1;
-    }
-
-    return esquerda - direita;
-}
-
-No *rse(Arvore *arvore, No *no)
-{
-    No *pai = no->pai;
-    No *direita = no->direita;
-
-    no->direita = direita->esquerda;
-    no->pai = direita;
-
-    direita->esquerda = no;
-    direita->pai = pai;
-
-    if (pai == NULL)
-    {
-        arvore->raiz = direita;
-    }
-    else
-    {
-        if (pai->esquerda == no)
-        {
-            pai->esquerda = direita;
+                *root = *temp;
+            free(temp);
         }
         else
         {
-            pai->direita = direita;
+            struct Node *temp = minValueNode(root->right);
+
+            root->key = temp->key;
+
+            root->right = deleteNode(root->right, temp->key);
         }
     }
 
-    return direita;
-}
+    if (root == NULL)
+        return root;
 
-No *rsd(Arvore *arvore, No *no)
-{
-    No *pai = no->pai;
-    No *esquerda = no->esquerda;
+    // Update the balance factor of each node and
+    // balance the tree
+    root->height = 1 + max(height(root->left),
+                           height(root->right));
 
-    no->esquerda = esquerda->direita;
-    no->pai = esquerda;
+    int balance = getBalance(root);
+    if (balance > 1 && getBalance(root->left) >= 0)
+        return rightRotate(root);
 
-    esquerda->direita = no;
-    esquerda->pai = pai;
-
-    if (pai == NULL)
+    if (balance > 1 && getBalance(root->left) < 0)
     {
-        arvore->raiz = esquerda;
-    }
-    else
-    {
-        if (pai->esquerda == no)
-        {
-            pai->esquerda = esquerda;
-        }
-        else
-        {
-            pai->direita = esquerda;
-        }
+        root->left = leftRotate(root->left);
+        return rightRotate(root);
     }
 
-    return esquerda;
-}
+    if (balance < -1 && getBalance(root->right) <= 0)
+        return leftRotate(root);
 
-No *rde(Arvore *arvore, No *no)
-{
-    no->direita = rsd(arvore, no->direita);
-    return rse(arvore, no);
-}
-
-No *rdd(Arvore *arvore, No *no)
-{
-    no->esquerda = rse(arvore, no->esquerda);
-    return rsd(arvore, no);
-}
-void worst_case()
-{
-    Arvore *a = criar();
-    FILE *fp = fopen("PerformanceWorstCase.txt", "w+");
-    for (int i = 0; i < 10000; i++)
+    if (balance < -1 && getBalance(root->right) > 0)
     {
-        adicionar(a, i);
-        fprintf(fp, "%d ", cont);
+        root->right = rightRotate(root->right);
+        return leftRotate(root);
+    }
+
+    return root;
+}
+
+// Print the tree
+void printPreOrder(struct Node *root)
+{
+    if (root != NULL)
+    {
+        printf("%d ", root->key);
+        printPreOrder(root->left);
+        printPreOrder(root->right);
+    }
+}
+void worstcase(struct Node *root)
+{
+    FILE *fp = fopen("PerformanceWorstCase.txt","w+");
+
+    for (int i = 0; i < 10000; i += 1)
+    {
+        root = insertNode(root, i);
+        fprintf(fp,"%d ", cont);
         cont = 0;
     }
-    fclose(fp);
-    free(a);
 }
-void avg_case()
-{
-    FILE *fp = fopen("PerformanceAverageCase.txt", "w+");
-    srand(time(NULL));
-    Arvore *a;
-    a = criar();
-    for (int j = 0; j < 180; j += 1)
-    {
-        adicionar(a, rand());
-        fprintf(fp, "%d ", cont);
-        cont = 0;
-    }
-    fclose(fp);
-}
-
 int main()
 {
-    Arvore *a;
-    fp = fopen("PerformanceWorstCase.txt", "w+");
-    for (int i = 0; i < 10000; i++)
-    {
-        adicionar(a, i);
-        fprintf(fp, "%d ", cont);
-        cont = 0;
-    }
-    fclose(fp);
+    struct Node *root = NULL;
+    worstcase(root);
+    printPreOrder(root);
+
     return 0;
 }
-
