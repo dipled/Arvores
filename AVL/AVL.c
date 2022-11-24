@@ -218,6 +218,7 @@ void worstcase(struct Node *root)
         fprintf(fp,"%d ", cont);
         cont = 0;
     }
+    fclose(fp);
 }
 int main()
 {
