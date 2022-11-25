@@ -48,22 +48,17 @@ plt.style.use("seaborn-deep")
 # f.close()
 #
 # (4) Gráfico do caso médio da árvore AVL:
-#
-# with open(generalPath + "AVLTree\\PerformanceAverageCase.txt", 'r') as f:
-#    lines = f.readlines()
-#
-#averageVectorAVL = [0 for i in range(len(lines[0].split()))]
-#
-# for line in lines:
-#    vector = line.split()
-#    for j in range(len(vector)):
-#        averageVectorAVL[j] += float(vector[j])/10
-#
-#xpointsAverageAVL = np.array([x for x in range(0, len(averageVectorAVL))])
-#ypointsAverageAVL = np.array(averageVectorAVL)
-#
-#plt.plot(xpointsAverageAVL, ypointsAverageAVL, label="Average (AVL)", linewidth=0.6)
-# f.close()
+with open("AVL/PerformanceAverageCase.txt", 'r') as f:
+   lines = f.readlines()
+averageVectorAVL = [0 for i in range(len(lines[0].split()))]
+for line in lines:
+   vector = line.split()
+   for j in range(len(vector)):
+       averageVectorAVL[j] += float(vector[j])/10
+xpointsAverageAVL = np.array([x for x in range(0, len(averageVectorAVL))])
+ypointsAverageAVL = np.array(averageVectorAVL)
+plt.plot(xpointsAverageAVL, ypointsAverageAVL, label="Average (AVL)", linewidth=0.6)
+f.close()
 
 # (5) Gráfico do pior caso da árvore AVL:
 
@@ -87,8 +82,8 @@ plt.xlabel("Elementos na árvore")
 plt.ylabel("Etapas")
 plt.legend(loc="upper left")
 plt.savefig("Graphs/AVLTree.png")
-#plt.close()
-#f.close()
+plt.close()
+f.close()
 #
 # (6) Gráfico do caso médio da árvore B:
 #

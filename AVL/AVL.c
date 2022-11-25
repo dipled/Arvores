@@ -16,6 +16,7 @@ int max(int a, int b);
 // Calculate height
 int height(struct Node *N)
 {
+    cont += 1;
     if (N == NULL)
         return 0;
     return N->height;
@@ -73,6 +74,7 @@ struct Node *leftRotate(struct Node *x)
 // Get the balance factor
 int getBalance(struct Node *N)
 {
+    cont += 1;
     if (N == NULL)
         return 0;
     return height(N->left) - height(N->right);
@@ -122,6 +124,7 @@ struct Node *insertNode(struct Node *node, int key)
 
 struct Node *minValueNode(struct Node *node)
 {
+    cont += 1;
     struct Node *current = node;
 
     while (current->left != NULL)
@@ -133,6 +136,7 @@ struct Node *minValueNode(struct Node *node)
 // Delete a nodes
 struct Node *deleteNode(struct Node *root, int key)
 {
+    cont += 1;
     // Find the node and delete it
     if (root == NULL)
         return root;
@@ -220,8 +224,6 @@ void worstcase()
         cont = 0;
     }
     fclose(fp);
-    if(root != NULL)
-        free(root);
 }
 void avgcase()
 {
