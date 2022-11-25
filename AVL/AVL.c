@@ -16,7 +16,6 @@ int max(int a, int b);
 // Calculate height
 int height(struct Node *N)
 {
-    cont += 1;
     if (N == NULL)
         return 0;
     return N->height;
@@ -74,7 +73,6 @@ struct Node *leftRotate(struct Node *x)
 // Get the balance factor
 int getBalance(struct Node *N)
 {
-    cont += 1;
     if (N == NULL)
         return 0;
     return height(N->left) - height(N->right);
@@ -124,7 +122,6 @@ struct Node *insertNode(struct Node *node, int key)
 
 struct Node *minValueNode(struct Node *node)
 {
-    cont += 1;
     struct Node *current = node;
 
     while (current->left != NULL)
@@ -217,7 +214,7 @@ void worstcase()
     struct Node *root = NULL;
     FILE *fp = fopen("PerformanceWorstCase.txt", "w+");
 
-    for (int i = 0; i < 10000; i += 1)
+    for (int i = 0; i < 1000; i += 1)
     {
         root = insertNode(root, i);
         fprintf(fp, "%d ", cont);
@@ -232,7 +229,7 @@ void avgcase()
     for (int i = 0; i < 10; i += 1)
     {
         struct Node *root = NULL;
-        for(int j = 0; j < 10000; j += 1)
+        for(int j = 0; j < 1000; j += 1)
         {
             root = insertNode(root,rand());
             fprintf(fp, "%d ", cont);
