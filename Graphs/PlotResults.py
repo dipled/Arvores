@@ -18,13 +18,14 @@ xpointsAverageRB = np.array([x for x in range(0, len(averageVectorRB))])
 ypointsAverageRB = np.array(averageVectorRB)
 
 plt.xticks(range(0, len(xpointsAverageRB)+1, 100))
-plt.plot(xpointsAverageRB, ypointsAverageRB, label="Average (Red-Black)", linewidth=0.6)
+plt.plot(xpointsAverageRB, ypointsAverageRB,
+         label="Average (Red-Black)", linewidth=0.6)
 f.close()
 
-#(3) Gráfico do pior caso da árvore Rubro-Negra:
+# (3) Gráfico do pior caso da árvore Rubro-Negra:
 
 
-with open("RB/PerformanceWorstCase.txt", 'r') as f:
+with open("../RB/PerformanceWorstCase.txt", 'r') as f:
     lines = f.readlines()
 
 worstVectorRB = [0 for i in range(len(lines[0].split()))]
@@ -37,32 +38,34 @@ for line in lines:
 xpointsWorstRB = np.array([x for x in range(0, len(worstVectorRB))])
 ypointsWorstRB = np.array(worstVectorRB)
 
-plt.plot(xpointsWorstRB, ypointsWorstRB, label="Worst (Red-Black)", linewidth=0.6)
+plt.plot(xpointsWorstRB, ypointsWorstRB,
+         label="Worst (Red-Black)", linewidth=0.6)
 
 plt.title("Average Case vs Worst Case")
 plt.xlabel("Elementos na árvore")
 plt.ylabel("Operações")
 plt.legend(loc="upper left")
-plt.savefig("Graphs/RB.png")
+plt.savefig("RB.png")
 plt.close()
 f.close()
 
-#(4) Gráfico do caso médio da árvore AVL:
-with open("AVL/PerformanceAverageCase.txt", 'r') as f:
-  lines = f.readlines()
+# (4) Gráfico do caso médio da árvore AVL:
+with open("../AVL/PerformanceAverageCase.txt", 'r') as f:
+    lines = f.readlines()
 averageVectorAVL = [0 for i in range(len(lines[0].split()))]
 for line in lines:
-   vector = line.split()
-   for j in range(len(vector)):
-       averageVectorAVL[j] += float(vector[j])/10
+    vector = line.split()
+    for j in range(len(vector)):
+        averageVectorAVL[j] += float(vector[j])/10
 xpointsAverageAVL = np.array([x for x in range(0, len(averageVectorAVL))])
 ypointsAverageAVL = np.array(averageVectorAVL)
-plt.plot(xpointsAverageAVL, ypointsAverageAVL, label="Average (AVL)", linewidth=0.6)
+plt.plot(xpointsAverageAVL, ypointsAverageAVL,
+         label="Average (AVL)", linewidth=0.6)
 f.close()
 
 # (5) Gráfico do pior caso da árvore AVL:
 
-with open("AVL/PerformanceWorstCase.txt", 'r') as f:
+with open("../AVL/PerformanceWorstCase.txt", 'r') as f:
     lines = f.readlines()
 
 worstVectorAVL = [0 for i in range(len(lines[0].split()))]
@@ -81,7 +84,7 @@ plt.title("Average Case vs Worst Case")
 plt.xlabel("Elementos na árvore")
 plt.ylabel("Operações")
 plt.legend(loc="upper left")
-plt.savefig("Graphs/AVLTree.png")
+plt.savefig("AVLTree.png")
 plt.close()
 f.close()
 #
@@ -92,7 +95,7 @@ f.close()
 #
 #averageVectorB = [0 for i in range(len(lines[0].split()))]
 #
-#for line in lines:
+# for line in lines:
 #    vector = line.split()
 #    for j in range(len(vector)):
 #        averageVectorB[j] = float(vector[j])
@@ -101,16 +104,16 @@ f.close()
 #ypointsAverageB = np.array(averageVectorB)
 #
 #plt.plot(xpointsAverageB, ypointsAverageB, label="Average (B)", linewidth=0.6)
-#f.close()
+# f.close()
 #
-## (7) Gráfico do pior caso da árvore B:
+# (7) Gráfico do pior caso da árvore B:
 #
 #with open( "BTree/PerformanceWorstCase.txt", 'r') as f:
 #    lines = f.readlines()
 #
 #worstVectorB = [0 for i in range(len(lines[0].split()))]
 #
-#for line in lines:
+# for line in lines:
 #    vector = line.split()
 #    for j in range(len(vector)):
 #        worstVectorB[j] = float(vector[j])
@@ -122,7 +125,7 @@ f.close()
 #
 #plt.title("Average Case vs Worst Case")
 #plt.xlabel("Elementos na árvore")
-#plt.ylabel("Operações")
+# plt.ylabel("Operações")
 #plt.legend(loc="upper left")
 #plt.savefig( "Graphs/BTree.png")
 #plt.close()
@@ -134,7 +137,8 @@ plt.plot(xpointsAverageRB, ypointsAverageRB,
          label="Average (RB)", linewidth=0.6)
 plt.plot(xpointsAverageAVL, ypointsAverageAVL,
          label="Average (AVL)", linewidth=0.6)
-plt.plot(xpointsAverageB, ypointsAverageB, label="Average (B)", linewidth=0.6)
+plt.plot(xpointsAverageRB, ypointsAverageRB,
+         label="Average (B)", linewidth=0.6)
 
 plt.title("Average Cases")
 plt.xlabel("Elementos na árvore")
@@ -145,7 +149,7 @@ plt.close()
 
 plt.plot(xpointsWorstRB, ypointsWorstRB, label="Worst (RB)", linewidth=0.6)
 plt.plot(xpointsWorstAVL, ypointsWorstAVL, label="Worst (AVL)", linewidth=0.6)
-plt.plot(xpointsWorstB, ypointsWorstB, label="Worst (B)", linewidth=0.6)
+plt.plot(xpointsWorstRB, ypointsWorstRB, label="Worst (B)", linewidth=0.6)
 
 plt.title("Worst Cases")
 plt.xlabel("Elementos na árvore")
@@ -156,14 +160,15 @@ plt.close()
 
 # (9) Comparação entre casos médios e log(n):
 
-xAxis = np.linspace(1, len(worstVectorB))
+xAxis = np.linspace(1, len(worstVectorRB))
 plt.plot(xAxis, np.log2(xAxis), label="log(n) em base 2", linewidth=0.6)
 
 plt.plot(xpointsAverageRB, ypointsAverageRB,
          label="Average (RB)", linewidth=0.6)
 plt.plot(xpointsAverageAVL, ypointsAverageAVL,
          label="Average (AVL)", linewidth=0.6)
-plt.plot(xpointsAverageB, ypointsAverageB, label="Average (B)", linewidth=0.6)
+plt.plot(xpointsAverageRB, ypointsAverageRB,
+         label="Average (B)", linewidth=0.6)
 #plt.plot(xpointsWorstRB, ypointsWorstRB, label="Worst (RB)")
 #plt.plot(xpointsWorstAVL, ypointsWorstAVL, label="Worst (AVL)")
 #plt.plot(xpointsWorstB, ypointsWorstB, label="Worst (B)")
@@ -178,12 +183,12 @@ plt.close()
 
 # (10) Comparação entre piores casos e log(n):
 
-xAxis = np.linspace(1, len(worstVectorB))
+xAxis = np.linspace(1, len(worstVectorRB))
 plt.plot(xAxis, np.log2(xAxis), label="log(n) em base 2", linewidth=0.6)
 
 plt.plot(xpointsWorstRB, ypointsWorstRB, label="Worst (RB)", linewidth=0.6)
 plt.plot(xpointsWorstAVL, ypointsWorstAVL, label="Worst (AVL)", linewidth=0.6)
-plt.plot(xpointsWorstB, ypointsWorstB, label="Worst (B)", linewidth=0.6)
+plt.plot(xpointsWorstRB, ypointsWorstRB, label="Worst (B)", linewidth=0.6)
 
 plt.title("Worst Cases vs log(n)")
 plt.xlabel("Elementos na árvore")
