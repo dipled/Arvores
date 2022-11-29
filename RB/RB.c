@@ -69,6 +69,7 @@ No *adicionarNo(Arvore *arvore, No *no, int valor)
     {
         if (no->direita == arvore->nulo)
         {
+            cont += 1;
             no->direita = criarNo(arvore, no, valor);
             no->direita->cor = Vermelho;
 
@@ -83,6 +84,7 @@ No *adicionarNo(Arvore *arvore, No *no, int valor)
     {
         if (no->esquerda == arvore->nulo)
         {
+            cont += 1;
             no->esquerda = criarNo(arvore, no, valor);
             no->esquerda->cor = Vermelho;
 
@@ -99,6 +101,7 @@ No *adicionar(Arvore *arvore, int valor)
 {
     if (vazia(arvore))
     {
+        cont += 1;
         arvore->raiz = criarNo(arvore, arvore->nulo, valor);
         arvore->raiz->cor = Preto;
 
@@ -223,6 +226,7 @@ void balancear(Arvore *arvore, No *no)
                 }
                 else
                 {
+
                     no->pai->cor = Preto;
                     no->pai->pai->cor = Vermelho;             // Caso 3
                     rotacionarEsquerda(arvore, no->pai->pai); // Caso 3

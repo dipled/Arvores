@@ -3,7 +3,6 @@ import numpy as np
 import math
 plt.style.use("seaborn-deep")
 
-#
 
 with open("RB/PerformanceAverageCase.txt", 'r') as f:
     lines = f.readlines()
@@ -88,7 +87,7 @@ f.close()
 #
 # (6) Gráfico do caso médio da árvore B:
 #
-#with open(generalPath + "BTree\\PerformanceAverageCase.txt", 'r') as f:
+#with open( "BTree/PerformanceAverageCase.txt", 'r') as f:
 #    lines = f.readlines()
 #
 #averageVectorB = [0 for i in range(len(lines[0].split()))]
@@ -106,7 +105,7 @@ f.close()
 #
 ## (7) Gráfico do pior caso da árvore B:
 #
-#with open(generalPath + "BTree\\PerformanceWorstCase.txt", 'r') as f:
+#with open( "BTree/PerformanceWorstCase.txt", 'r') as f:
 #    lines = f.readlines()
 #
 #worstVectorB = [0 for i in range(len(lines[0].split()))]
@@ -125,7 +124,7 @@ f.close()
 #plt.xlabel("Elementos na árvore")
 #plt.ylabel("Operações")
 #plt.legend(loc="upper left")
-#plt.savefig(generalPath + "Graphics\\BTree.png")
+#plt.savefig( "Graphs/BTree.png")
 #plt.close()
 f.close()
 
@@ -141,7 +140,7 @@ plt.title("Average Cases")
 plt.xlabel("Elementos na árvore")
 plt.ylabel("Operações")
 plt.legend(loc="upper left")
-plt.savefig(generalPath + "Graphics\\AllTreesAverage.png")
+plt.savefig( "Graphs/AllTreesAverage.png")
 plt.close()
 
 plt.plot(xpointsWorstRB, ypointsWorstRB, label="Worst (RB)", linewidth=0.6)
@@ -152,7 +151,7 @@ plt.title("Worst Cases")
 plt.xlabel("Elementos na árvore")
 plt.ylabel("Operações")
 plt.legend(loc="upper left")
-plt.savefig(generalPath + "Graphics\\AllTreesWorst.png")
+plt.savefig( "Graphs/AllTreesWorst.png")
 plt.close()
 
 # (9) Comparação entre casos médios e log(n):
@@ -174,7 +173,7 @@ plt.title("Average Cases vs log(n)")
 plt.xlabel("Elementos na árvore")
 plt.ylabel("Operações")
 plt.legend(loc="upper left")
-plt.savefig(generalPath + "Graphics\\LogAndAverage.png")
+plt.savefig( "Graphs/LogAndAverage.png")
 plt.close()
 
 # (10) Comparação entre piores casos e log(n):
@@ -190,5 +189,5 @@ plt.title("Worst Cases vs log(n)")
 plt.xlabel("Elementos na árvore")
 plt.ylabel("Operações")
 plt.legend(loc="upper left")
-plt.savefig(generalPath + "Graphics\\LogAndWorst.png")
+plt.savefig( "Graphs/LogAndWorst.png")
 plt.close()

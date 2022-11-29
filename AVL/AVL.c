@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include<time.h>
+#include <time.h>
 int cont = 0;
 
 struct Node
@@ -30,7 +30,7 @@ int max(int a, int b)
 struct Node *newNode(int key)
 {
     struct Node *node = (struct Node *)
-        malloc(sizeof(struct Node));
+        calloc(1,sizeof(struct Node));
     node->key = key;
     node->left = NULL;
     node->right = NULL;
