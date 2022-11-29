@@ -29,7 +29,6 @@ int max(int a, int b)
 // Create a node
 struct Node *newNode(int key)
 {
-    cont += 1;
     struct Node *node = (struct Node *)
         calloc(1,sizeof(struct Node));
     node->key = key;
