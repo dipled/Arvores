@@ -178,6 +178,7 @@ void balancear(Arvore *arvore, No *no)
 {
     while (no->pai->cor == Vermelho)
     {
+        cont += 1;
         if (no->pai == no->pai->pai->esquerda)
         {
             No *tio = no->pai->pai->direita;
@@ -189,6 +190,7 @@ void balancear(Arvore *arvore, No *no)
 
                 no->pai->pai->cor = Vermelho; // Caso 1
                 no = no->pai->pai;            // Caso 1
+                cont += 1;
             }
             else
             {
@@ -216,6 +218,7 @@ void balancear(Arvore *arvore, No *no)
 
                 no->pai->pai->cor = Vermelho; // Caso 1
                 no = no->pai->pai;            // Caso 1
+                cont += 1;
             }
             else
             {

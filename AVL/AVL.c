@@ -29,6 +29,7 @@ int max(int a, int b)
 // Create a node
 struct Node *newNode(int key)
 {
+    cont += 1;
     struct Node *node = (struct Node *)
         calloc(1,sizeof(struct Node));
     node->key = key;
@@ -73,6 +74,7 @@ struct Node *leftRotate(struct Node *x)
 // Get the balance factor
 int getBalance(struct Node *N)
 {
+    cont +=1;
     if (N == NULL)
         return 0;
     return height(N->left) - height(N->right);
