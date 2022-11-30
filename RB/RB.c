@@ -201,6 +201,7 @@ void balancear(Arvore *arvore, No *no)
                 }
                 else
                 {
+                    cont += 1;
                     no->pai->cor = Preto;
                     no->pai->pai->cor = Vermelho;            // Caso 3
                     rotacionarDireita(arvore, no->pai->pai); // Caso 3
@@ -231,7 +232,8 @@ void balancear(Arvore *arvore, No *no)
                 {
 
                     no->pai->cor = Preto;
-                    no->pai->pai->cor = Vermelho;             // Caso 3
+                    no->pai->pai->cor = Vermelho;  
+                    cont += 1;           // Caso 3
                     rotacionarEsquerda(arvore, no->pai->pai); // Caso 3
                 }
             }
